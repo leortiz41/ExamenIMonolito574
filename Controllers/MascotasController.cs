@@ -42,6 +42,25 @@ public class MascotasController : ControllerBase
         var cuidadorExiste = await _db.Cuidadores.AnyAsync(c => c.Id == mascota.CuidadorId);
         if (!cuidadorExiste)
             return BadRequest("El cuidador especificado no existe.");
+    }
+
+[HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+
+    if (id <= 0)
+
+        return BadRequest("El id debe ser mayor que cero.");
+
+    var mascota = await _db.Mascotas.FindAsync(id);
+
+    if (mascota == null)
+
+        return NotFound("La mascota no existe.");
+
+    return Ok(mascota);
+
+    }
 
         // TODO (Ticket 2): normalizar texto y validar formato de Nombre/Especie
 
@@ -53,6 +72,9 @@ public class MascotasController : ControllerBase
     }
 
     // TODO (Ticket 4): Update(int id, Mascota mascotaActualizada)
+[
+
+
 
     // TODO (Ticket 5): Delete(int id) -> 409 si EnTratamiento es true
 }
